@@ -1,6 +1,6 @@
 "use client"
 
-import { useState } from 'react'
+import { useState, useEffect } from 'react'
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card"
 import { Input } from "@/components/ui/input"
 import { Button } from "@/components/ui/button"
@@ -16,6 +16,10 @@ interface DropResults {
 export default function PriceDropCalculator() {
   const [price, setPrice] = useState<string>('')
   const [results, setResults] = useState<DropResults | null>(null)
+
+  useEffect(() => {
+    document.title = 'Price Drop Calculator';
+  }, []);
 
   const calculateDrops = (): void => {
     const inputPrice = parseFloat(price)
