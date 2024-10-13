@@ -1,6 +1,6 @@
 "use client"
 
-import React, { useState } from 'react'
+import { useState } from 'react'
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card"
 import { Input } from "@/components/ui/input"
 import { Button } from "@/components/ui/button"
@@ -71,7 +71,7 @@ export default function PriceDropCalculator() {
             <div className="mt-8 grid gap-4 sm:grid-cols-2">
               <Card>
                 <CardHeader className="pb-2">
-                  <CardTitle className="text-lg">5% Drop</CardTitle>
+                  <CardTitle className="text-xl">5% Drop</CardTitle>
                 </CardHeader>
                 <CardContent>
                   <p className="text-3xl font-bold">${results.drop5}</p>
@@ -79,7 +79,7 @@ export default function PriceDropCalculator() {
               </Card>
               <Card>
                 <CardHeader className="pb-2">
-                  <CardTitle className="text-lg">10% Drop</CardTitle>
+                  <CardTitle className="text-xl">10% Drop</CardTitle>
                 </CardHeader>
                 <CardContent>
                   <p className="text-3xl font-bold">${results.drop10}</p>
@@ -87,7 +87,7 @@ export default function PriceDropCalculator() {
               </Card>
               <Card>
                 <CardHeader className="pb-2">
-                  <CardTitle className="text-lg">4% - 6% Range</CardTitle>
+                  <CardTitle className="text-xl">4% - 6% Range</CardTitle>
                 </CardHeader>
                 <CardContent>
                   <p className="text-2xl font-bold">{results.range4to6}</p>
@@ -95,7 +95,7 @@ export default function PriceDropCalculator() {
               </Card>
               <Card>
                 <CardHeader className="pb-2">
-                  <CardTitle className="text-lg">9% - 11% Range</CardTitle>
+                  <CardTitle className="text-xl">9% - 11% Range</CardTitle>
                 </CardHeader>
                 <CardContent>
                   <p className="text-2xl font-bold">{results.range9to11}</p>
