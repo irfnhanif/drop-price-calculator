@@ -1,4 +1,10 @@
+"use client"
+
 import React, { useState } from 'react'
+import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card"
+import { Input } from "@/components/ui/input"
+import { Button } from "@/components/ui/button"
+import { Label } from "@/components/ui/label"
 
 interface DropResults {
   drop5: string
@@ -7,9 +13,9 @@ interface DropResults {
   range9to11: string
 }
 
-const App: React.FC = () => {
+export default function PriceDropCalculator() {
   const [price, setPrice] = useState<string>('')
-  const [results, setResults] = useState<DropResults| null>(null)
+  const [results, setResults] = useState<DropResults | null>(null)
 
   const calculateDrops = (): void => {
     const inputPrice = parseFloat(price)
@@ -19,8 +25,8 @@ const App: React.FC = () => {
 
       const drop5 = dropPrice(0.05)
       const drop10 = dropPrice(0.1)
-      const range4to6 = `${dropPrice(0.04)} - ${dropPrice(0.06)}`
-      const range9to11 = `${dropPrice(0.09)} - ${dropPrice(0.11)}`
+      const range4to6 = `$${dropPrice(0.04)} - $${dropPrice(0.06)}`
+      const range9to11 = `$${dropPrice(0.09)} - $${dropPrice(0.11)}`
 
       setResults({
         drop5,
@@ -30,48 +36,75 @@ const App: React.FC = () => {
       })
     }
   }
-  return (
-    <>
-      <div className="flex justify-center items-center h-screen bg-gray-100">
-        <div className="bg-white p-8 shadow-lg rounded-lg">
-          <h1 className="text-2xl font-bold mb-6 text-center">Price Drop Calculator</h1>
-          <div className="mb-4">
-            <label htmlFor="price" className="block text-sm font-medium text-gray-700">Enter Price</label>
-            <input
-              type="number"
-              id="price"
-              className="mt-1 p-2 border border-gray-300 rounded w-full"
-              value={price}
-              onChange={(e) => setPrice(e.target.value)}
-            />
-          </div>
-          <button
-            className="w-full bg-blue-500 text-white font-bold py-2 px-4 rounded hover:bg-blue-600"
-            onClick={calculateDrops}
-          >
-            Calculate
-          </button>
 
-          {results && (
-            <div className="mt-6">
-              <div className="text-lg">
-                <strong>4%-6% drop price range:</strong> {results.range4to6}
-              </div>
-              <div className="text-lg">
-                <strong>5% drop price:</strong> {results.drop5}
-              </div>
-              <div className="text-lg">
-                <strong>9%-11% drop price range:</strong> {results.range9to11}
-              </div>
-              <div className="text-lg">
-                <strong>10% drop price:</strong> {results.drop10}
+  return (
+    <div className="flex justify-center items-center min-h-screen w-full bg-gray-100 p-4">
+      <Card className="w-full max-w-4xl mx-auto">
+        <CardHeader>
+          <CardTitle className="text-3xl font-bold text-center">Price Drop Calculator</CardTitle>
+        </CardHeader>
+        <CardContent>
+          <div className="space-y-6">
+            <div className="space-y-2">
+              <Label htmlFor="price" className="text-lg">Enter Price</Label>
+              <div className="relative">
+                <span className="absolute left-3 top-1/2 -translate-y-1/2 text-2xl text-gray-500">$</span>
+                <Input
+                  type="number"
+                  id="price"
+                  placeholder="0.00"
+                  className="text-2xl h-16 pl-8"
+                  value={price}
+                  onChange={(e) => setPrice(e.target.value)}
+                />
               </div>
             </div>
+            <Button 
+              className="w-full text-lg h-12" 
+              onClick={calculateDrops}
+            >
+              Calculate
+            </Button>
+          </div>
+
+          {results && (
+            <div className="mt-8 grid gap-4 sm:grid-cols-2">
+              <Card>
+                <CardHeader className="pb-2">
+                  <CardTitle className="text-lg">5% Drop</CardTitle>
+                </CardHeader>
+                <CardContent>
+                  <p className="text-3xl font-bold">${results.drop5}</p>
+                </CardContent>
+              </Card>
+              <Card>
+                <CardHeader className="pb-2">
+                  <CardTitle className="text-lg">10% Drop</CardTitle>
+                </CardHeader>
+                <CardContent>
+                  <p className="text-3xl font-bold">${results.drop10}</p>
+                </CardContent>
+              </Card>
+              <Card>
+                <CardHeader className="pb-2">
+                  <CardTitle className="text-lg">4% - 6% Range</CardTitle>
+                </CardHeader>
+                <CardContent>
+                  <p className="text-2xl font-bold">{results.range4to6}</p>
+                </CardContent>
+              </Card>
+              <Card>
+                <CardHeader className="pb-2">
+                  <CardTitle className="text-lg">9% - 11% Range</CardTitle>
+                </CardHeader>
+                <CardContent>
+                  <p className="text-2xl font-bold">{results.range9to11}</p>
+                </CardContent>
+              </Card>
+            </div>
           )}
-        </div>
-      </div>
-    </>
+        </CardContent>
+      </Card>
+    </div>
   )
 }
-
-export default App
