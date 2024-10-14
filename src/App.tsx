@@ -1,4 +1,5 @@
-import { useState, useEffect } from 'react'
+import { useState, useEffect, useCallback } from 'react'
+import { Helmet } from 'react-helmet'
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card"
 import { Input } from "@/components/ui/input"
 import { Button } from "@/components/ui/button"
@@ -15,12 +16,13 @@ export default function PriceDropCalculator() {
   const [price, setPrice] = useState<string>('')
   const [results, setResults] = useState<DropResults | null>(null)
 
-  useEffect(() => {
-    document.title = 'Price Drop Calculator';
-  }, []);
-
-  const calculateDrops = (): void => {
+  const calculateDrops = useCallback((): void => {
     const inputPrice = parseFloat(price)
+
+    if (isNaN(inputPrice) || inputPrice <= 0) {
+      alert('Please enter a valid price greater than 0.');
+      return
+    }
 
     if (!isNaN(inputPrice)) {
       const dropPrice = (percent: number): string => (inputPrice - inputPrice * percent).toFixed(2)
@@ -37,76 +39,78 @@ export default function PriceDropCalculator() {
         range9to11
       })
     }
-  }
+  }, [price])
 
   return (
-    <div className="flex justify-center items-center min-h-screen w-full bg-gray-100 p-4">
-      <Card className="w-full max-w-4xl mx-auto">
-        <CardHeader>
-          <CardTitle className="text-3xl font-bold text-center">Price Drop Calculator</CardTitle>
-        </CardHeader>
-        <CardContent>
-          <div className="space-y-6">
-            <div className="space-y-2">
-              <Label htmlFor="price" className="text-lg">Enter Price</Label>
-              <div className="relative">
-                <span className="absolute left-3 top-1/2 -translate-y-1/2 text-2xl text-gray-500">$</span>
-                <Input
-                  type="number"
-                  id="price"
-                  placeholder="0.00"
-                  className="text-2xl h-16 pl-8"
-                  value={price}
-                  onChange={(e) => setPrice(e.target.value)}
-                />
+    <>
+      <div className="flex justify-center items-center min-h-screen w-full bg-gray-100 p-4">
+        <Card className="w-full max-w-4xl mx-auto">
+          <CardHeader>
+            <CardTitle className="text-3xl font-bold text-center">Price Drop Calculator</CardTitle>
+          </CardHeader>
+          <CardContent>
+            <div className="space-y-6">
+              <div className="space-y-2">
+                <Label htmlFor="price" className="text-lg">Enter Price</Label>
+                <div className="relative">
+                  <span className="absolute left-3 top-1/2 -translate-y-1/2 text-2xl text-gray-500">$</span>
+                  <Input
+                    type="number"
+                    id="price"
+                    placeholder="0.00"
+                    className="text-2xl h-16 pl-8"
+                    value={price}
+                    onChange={(e) => setPrice(e.target.value)}
+                  />
+                </div>
               </div>
+              <Button 
+                className="w-full text-lg h-12" 
+                onClick={calculateDrops}
+              >
+                Calculate
+              </Button>
             </div>
-            <Button 
-              className="w-full text-lg h-12" 
-              onClick={calculateDrops}
-            >
-              Calculate
-            </Button>
-          </div>
 
-          {results && (
-            <div className="mt-8 grid gap-4 sm:grid-cols-2">
-              <Card>
-                <CardHeader className="pb-2">
-                  <CardTitle className="text-xl">5% Drop</CardTitle>
-                </CardHeader>
-                <CardContent>
-                  <p className="text-3xl font-bold">${results.drop5}</p>
-                </CardContent>
-              </Card>
-              <Card>
-                <CardHeader className="pb-2">
-                  <CardTitle className="text-xl">10% Drop</CardTitle>
-                </CardHeader>
-                <CardContent>
-                  <p className="text-3xl font-bold">${results.drop10}</p>
-                </CardContent>
-              </Card>
-              <Card>
-                <CardHeader className="pb-2">
-                  <CardTitle className="text-xl">4% - 6% Range</CardTitle>
-                </CardHeader>
-                <CardContent>
-                  <p className="text-2xl font-bold">{results.range4to6}</p>
-                </CardContent>
-              </Card>
-              <Card>
-                <CardHeader className="pb-2">
-                  <CardTitle className="text-xl">9% - 11% Range</CardTitle>
-                </CardHeader>
-                <CardContent>
-                  <p className="text-2xl font-bold">{results.range9to11}</p>
-                </CardContent>
-              </Card>
-            </div>
-          )}
-        </CardContent>
-      </Card>
-    </div>
+            {results && (
+              <div className="mt-8 grid gap-4 sm:grid-cols-2">
+                <Card>
+                  <CardHeader className="pb-2">
+                    <CardTitle className="text-xl">5% Drop</CardTitle>
+                  </CardHeader>
+                  <CardContent>
+                    <p className="text-3xl font-bold">${results.drop5}</p>
+                  </CardContent>
+                </Card>
+                <Card>
+                  <CardHeader className="pb-2">
+                    <CardTitle className="text-xl">10% Drop</CardTitle>
+                  </CardHeader>
+                  <CardContent>
+                    <p className="text-3xl font-bold">${results.drop10}</p>
+                  </CardContent>
+                </Card>
+                <Card>
+                  <CardHeader className="pb-2">
+                    <CardTitle className="text-xl">4% - 6% Range</CardTitle>
+                  </CardHeader>
+                  <CardContent>
+                    <p className="text-2xl font-bold">{results.range4to6}</p>
+                  </CardContent>
+                </Card>
+                <Card>
+                  <CardHeader className="pb-2">
+                    <CardTitle className="text-xl">9% - 11% Range</CardTitle>
+                  </CardHeader>
+                  <CardContent>
+                    <p className="text-2xl font-bold">{results.range9to11}</p>
+                  </CardContent>
+                </Card>
+              </div>
+            )}
+          </CardContent>
+        </Card>
+      </div>
+    </>
   )
 }
