@@ -1,5 +1,5 @@
 import { useState,  useCallback } from 'react'
-import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card"
+import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card"
 import { Input } from "@/components/ui/input"
 import { Button } from "@/components/ui/button"
 import { Label } from "@/components/ui/label"
@@ -44,13 +44,16 @@ export default function PriceDropCalculator() {
     <>
       <div className="flex justify-center items-center min-h-screen w-full bg-gray-100 p-4">
         <Card className="w-full max-w-4xl mx-auto">
-          <CardHeader>
+          <CardHeader className='pb-7'>
             <CardTitle className="text-3xl font-bold text-center">Price Drop Calculator</CardTitle>
+            <CardDescription className='text-sm text-center'>
+              This calculator helps you measure how much a price drops after reaching its peak. Currently, it calculates only 5% and 10% drops.
+            </CardDescription>
           </CardHeader>
           <CardContent>
             <div className="space-y-6">
               <div className="space-y-2">
-                <Label htmlFor="price" className="text-lg">Enter Price</Label>
+                <Label htmlFor="price" className="text-lg">Enter <span className="italic">Peak</span> Price</Label>
                 <div className="relative">
                   <span className="absolute left-3 top-1/2 -translate-y-1/2 text-2xl text-gray-500">$</span>
                   <Input
